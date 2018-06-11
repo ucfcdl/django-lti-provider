@@ -71,6 +71,9 @@ class LTIRoutingView(LTIAuthMixin, View):
         return url
 
     def post(self, request, assignment_name=None):
+        for key, value in request.POST.items():
+            request.session[key] = value
+            
         if request.POST.get('ext_content_intended_use', '') == 'embed':
             domain = self.request.get_host()
             url = '%s://%s/%s?return_url=%s' % (
